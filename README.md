@@ -58,11 +58,15 @@ policies; it does not treat the three groups as the same experimental setting.
 
 ### 1.1 Simulation Tasks
 
-The following image shows actual rollouts from the frozen local EquiBot baseline:
-Cloth Folding, Object Covering, and Box Closing. The E2 training and strict paired
-comparison in this study use **Object Covering only**.
+The following animations show actual rollouts from the frozen local EquiBot E0
+baseline: Cloth Folding, Object Covering, and Box Closing. Each GIF is a direct
+format conversion of the corresponding `Original / seed 0 / ckpt01999 / episode 00`
+evaluation video. The E2 training and strict paired comparison in this study use
+**Object Covering only**.
 
-![EquiBot simulation rollouts](assets/equibot/local_three_task_rollouts.png)
+| Cloth Folding (reward 1.000000) | Object Covering (reward 0.981746) | Box Closing (reward 0.999697) |
+|---|---|---|
+| ![EquiBot Cloth Folding rollout](assets/equibot/e0_fold_original_s0_ckpt01999_ep00.gif) | ![EquiBot Object Covering rollout](assets/equibot/e0_cover_original_s0_ckpt01999_ep00.gif) | ![EquiBot Box Closing rollout](assets/equibot/e0_close_original_s0_ckpt01999_ep00.gif) |
 
 The experiments use the public environments, data-generation process, and
 evaluation interfaces from [EquiBot](https://github.com/yjy0625/equibot). The

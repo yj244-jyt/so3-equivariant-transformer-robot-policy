@@ -13,7 +13,9 @@ the following research projects.
 
 The files under `assets/equibot/` are figures assembled from locally generated
 rollouts or locally computed experiment summaries using the EquiBot simulator.
-No EquiBot source code is redistributed here.
+The three `e0_*_original_s0_ckpt01999_ep00.gif` files are direct format
+conversions of frozen local evaluation videos. No EquiBot source code is
+redistributed here.
 
 ## RiEMann
 
@@ -33,4 +35,3 @@ are not the paper's private Mug-on-Rack benchmark.
 No implementation source, checkpoint, training data, or architecture asset was
 copied from the local `e2tsp-escnn` worktree. Architectural descriptions in the
 README are limited to facts already recorded in the frozen experiment reports.
-
