@@ -1,0 +1,1412 @@
+{
+  "bootstrap_samples": 100000,
+  "bootstrap_seed": 20261027,
+  "dp_across_setup_std": 0.411823527377904,
+  "dp_checkpoint_sha256": "4be3fb36609f77cf56d937b1c0eef8099cb47c39f1d689e5e1f2e443758f9d63",
+  "dp_episodes": 40,
+  "dp_macro_mean": 0.2768787414112224,
+  "dp_ood_mean": 0.040050519681954326,
+  "dp_original_minus_rsnp_gap": 0.9742764431922211,
+  "e2_across_setup_std": 0.08343219134564647,
+  "e2_artifact_manifest_v2_sha256": "ba0fe28d83e828511f4afe1cb84e8ba21cb1c80b7f60dd7ecc163d422a089899",
+  "e2_checkpoint_sha256": "85080a2b3e5f0bc8074229839c4fe85169a50dba05b4816b639078594247c562",
+  "e2_episodes_reaudited": 40,
+  "e2_macro_mean": 0.9409389757392388,
+  "e2_ood_mean": 0.9254956010884953,
+  "e2_original_minus_rsnp_gap": 0.19077026758602,
+  "exact_initial_point_cloud_pairs": 40,
+  "exact_initial_state_pairs": 40,
+  "exact_randomization_pairs": 40,
+  "ffprobe": [
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "original",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsu",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsn",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 0,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 1,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 2,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 3,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 4,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 5,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 6,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 7,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 8,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "DP",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    },
+    {
+      "codec_name": "h264",
+      "environment_seed": 9,
+      "height": 276,
+      "model": "E2-Linear-K8",
+      "nb_frames": "57",
+      "setup": "rsnp",
+      "width": 256
+    }
+  ],
+  "macro_e2_minus_dp": 0.6640602343280163,
+  "macro_paired_bootstrap_95_ci": [
+    0.5163062790632995,
+    0.8088619966451417
+  ],
+  "npz_loaded": 80,
+  "ood_e2_minus_dp": 0.885445081406541,
+  "paired": [
+    {
+      "dp_reward": 0.9816406867066995,
+      "dp_success": true,
+      "e2_minus_dp": 0.0033755729000894963,
+      "e2_reward": 0.985016259606789,
+      "e2_success": true,
+      "environment_seed": 0,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9813454558945994,
+      "dp_success": true,
+      "e2_minus_dp": 0.0009092543964994704,
+      "e2_reward": 0.9822547102910989,
+      "e2_success": true,
+      "environment_seed": 1,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9819871542524258,
+      "dp_success": true,
+      "e2_minus_dp": -0.001130009421863476,
+      "e2_reward": 0.9808571448305623,
+      "e2_success": true,
+      "environment_seed": 2,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9806134130721083,
+      "dp_success": true,
+      "e2_minus_dp": 0.0008650883805715326,
+      "e2_reward": 0.9814785014526798,
+      "e2_success": true,
+      "environment_seed": 3,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9973711231514192,
+      "dp_success": true,
+      "e2_minus_dp": 0.0014359889674706583,
+      "e2_reward": 0.9988071121188898,
+      "e2_success": true,
+      "environment_seed": 4,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9818692122899311,
+      "dp_success": true,
+      "e2_minus_dp": 0.017060904604786042,
+      "e2_reward": 0.9989301168947171,
+      "e2_success": true,
+      "environment_seed": 5,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9962124467539719,
+      "dp_success": true,
+      "e2_minus_dp": -0.013935046712434174,
+      "e2_reward": 0.9822774000415377,
+      "e2_success": true,
+      "environment_seed": 6,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9990234466058235,
+      "dp_success": true,
+      "e2_minus_dp": -0.0166050533076586,
+      "e2_reward": 0.9824183932981649,
+      "e2_success": true,
+      "environment_seed": 7,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9814808926753489,
+      "dp_success": true,
+      "e2_minus_dp": -0.0008295683548933397,
+      "e2_reward": 0.9806513243204555,
+      "e2_success": true,
+      "environment_seed": 8,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9920902345879361,
+      "dp_success": true,
+      "e2_minus_dp": 0.007909799471860879,
+      "e2_reward": 1.000000034059797,
+      "e2_success": true,
+      "environment_seed": 9,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "Original",
+      "randomization_exact": true,
+      "setup": "original",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.012155774887681272,
+      "dp_success": false,
+      "e2_minus_dp": 0.9762934567156011,
+      "e2_reward": 0.9884492316032824,
+      "e2_success": true,
+      "environment_seed": 0,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9930369769782916,
+      "e2_reward": 0.9930369769782916,
+      "e2_success": true,
+      "environment_seed": 1,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9887333681396661,
+      "e2_reward": 0.9887333681396661,
+      "e2_success": true,
+      "environment_seed": 2,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9999899387361224,
+      "e2_reward": 0.9999899387361224,
+      "e2_success": true,
+      "environment_seed": 3,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9953466629465588,
+      "e2_reward": 0.9953466629465588,
+      "e2_success": true,
+      "environment_seed": 4,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9999999979692658,
+      "e2_reward": 0.9999999979692658,
+      "e2_success": true,
+      "environment_seed": 5,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9824269442170882,
+      "e2_reward": 0.9824269442170882,
+      "e2_success": true,
+      "environment_seed": 6,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.06204674897683782,
+      "dp_success": false,
+      "e2_minus_dp": 0.9379532300853991,
+      "e2_reward": 0.9999999790622369,
+      "e2_success": true,
+      "environment_seed": 7,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 1.0000000338929143,
+      "e2_reward": 1.0000000338929143,
+      "e2_success": true,
+      "environment_seed": 8,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9847429629736083,
+      "e2_reward": 0.9847429629736083,
+      "e2_success": true,
+      "environment_seed": 9,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Su",
+      "randomization_exact": true,
+      "setup": "rsu",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.011446586767121807,
+      "dp_success": false,
+      "e2_minus_dp": 0.9421881528784435,
+      "e2_reward": 0.9536347396455653,
+      "e2_success": true,
+      "environment_seed": 0,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9913888039164308,
+      "e2_reward": 0.9913888039164308,
+      "e2_success": true,
+      "environment_seed": 1,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 1.0000000482938565,
+      "e2_reward": 1.0000000482938565,
+      "e2_success": true,
+      "environment_seed": 2,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.9818051137353507,
+      "dp_success": true,
+      "e2_minus_dp": 0.003876459861986592,
+      "e2_reward": 0.9856815735973373,
+      "e2_success": true,
+      "environment_seed": 3,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.986361618414113,
+      "e2_reward": 0.986361618414113,
+      "e2_success": true,
+      "environment_seed": 4,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0031917320235852736,
+      "dp_success": false,
+      "e2_minus_dp": 0.9850105497322985,
+      "e2_reward": 0.9882022817558838,
+      "e2_success": true,
+      "environment_seed": 5,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9999359167810843,
+      "e2_reward": 0.9999359167810843,
+      "e2_success": true,
+      "environment_seed": 6,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9890849294027518,
+      "e2_reward": 0.9890849294027518,
+      "e2_success": true,
+      "environment_seed": 7,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9897464577877166,
+      "e2_reward": 0.9897464577877166,
+      "e2_success": true,
+      "environment_seed": 8,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9831172454865885,
+      "e2_reward": 0.9831172454865885,
+      "e2_success": true,
+      "environment_seed": 9,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn",
+      "randomization_exact": true,
+      "setup": "rsn",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.060046579592946306,
+      "dp_success": false,
+      "e2_minus_dp": 0.9399534821834665,
+      "e2_reward": 1.0000000617764129,
+      "e2_success": true,
+      "environment_seed": 0,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9949122081457684,
+      "e2_reward": 0.9949122081457684,
+      "e2_success": true,
+      "environment_seed": 1,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.0,
+      "e2_reward": 0.0,
+      "e2_success": false,
+      "environment_seed": 2,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.07082305447510666,
+      "dp_success": false,
+      "e2_minus_dp": 0.9291454180809164,
+      "e2_reward": 0.9999684725560231,
+      "e2_success": true,
+      "environment_seed": 3,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 1.00000009409318,
+      "e2_reward": 1.00000009409318,
+      "e2_success": true,
+      "environment_seed": 4,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9928004046244674,
+      "e2_reward": 0.9928004046244674,
+      "e2_success": true,
+      "environment_seed": 5,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.0,
+      "e2_reward": 0.0,
+      "e2_success": false,
+      "environment_seed": 6,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9909520425912686,
+      "e2_reward": 0.9909520425912686,
+      "e2_success": true,
+      "environment_seed": 7,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.996788381433827,
+      "e2_reward": 0.996788381433827,
+      "e2_success": true,
+      "environment_seed": 8,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    },
+    {
+      "dp_reward": 0.0,
+      "dp_success": false,
+      "e2_minus_dp": 0.9895666558335435,
+      "e2_reward": 0.9895666558335435,
+      "e2_success": true,
+      "environment_seed": 9,
+      "initial_point_cloud_exact": true,
+      "initial_state_exact": true,
+      "label": "R+Sn+P",
+      "randomization_exact": true,
+      "setup": "rsnp",
+      "task": "cover"
+    }
+  ],
+  "passed": true,
+  "scope": "paired pilot only: cover seed 0 ckpt01999, 4 setups x 10 episodes",
+  "setups": {
+    "original": {
+      "dp": {
+        "episodes": 10,
+        "mean_reward": 0.9873634065990263,
+        "std_reward": 0.007382284434894074,
+        "success_rate": 1.0
+      },
+      "dp_wins": 4,
+      "e2": {
+        "episodes": 10,
+        "mean_reward": 0.9872690996914691,
+        "std_reward": 0.007926453773648446,
+        "success_rate": 1.0
+      },
+      "e2_minus_dp_mean": -9.43069075571512e-05,
+      "e2_minus_dp_std": 0.009167663612118668,
+      "e2_wins": 6,
+      "label": "Original",
+      "paired_bootstrap_95_ci": [
+        -0.005828955248162753,
+        0.005486817608813832
+      ],
+      "ties": 0
+    },
+    "rsn": {
+      "dp": {
+        "episodes": 10,
+        "mean_reward": 0.09964434325260578,
+        "std_reward": 0.29407355226820064,
+        "success_rate": 0.1
+      },
+      "dp_wins": 0,
+      "e2": {
+        "episodes": 10,
+        "mean_reward": 0.986715361508133,
+        "std_reward": 0.012241683750570657,
+        "success_rate": 1.0
+      },
+      "e2_minus_dp_mean": 0.8870710182555271,
+      "e2_minus_dp_std": 0.2947997481132782,
+      "e2_wins": 10,
+      "label": "R+Sn",
+      "paired_bootstrap_95_ci": [
+        0.6879277393419855,
+        0.9919570072399552
+      ],
+      "ties": 0
+    },
+    "rsnp": {
+      "dp": {
+        "episodes": 10,
+        "mean_reward": 0.013086963406805296,
+        "std_reward": 0.026284616515911643,
+        "success_rate": 0.0
+      },
+      "dp_wins": 0,
+      "e2": {
+        "episodes": 10,
+        "mean_reward": 0.7964988321054491,
+        "std_reward": 0.3982651757493535,
+        "success_rate": 0.8
+      },
+      "e2_minus_dp_mean": 0.7834118686986439,
+      "e2_minus_dp_std": 0.39240292103548324,
+      "e2_wins": 8,
+      "label": "R+Sn+P",
+      "paired_bootstrap_95_ci": [
+        0.49244325343491385,
+        0.9860284618383538
+      ],
+      "ties": 2
+    },
+    "rsu": {
+      "dp": {
+        "episodes": 10,
+        "mean_reward": 0.007420252386451909,
+        "std_reward": 0.018565991670062374,
+        "success_rate": 0.0
+      },
+      "dp_wins": 0,
+      "e2": {
+        "episodes": 10,
+        "mean_reward": 0.9932726096519037,
+        "std_reward": 0.006476930137130459,
+        "success_rate": 1.0
+      },
+      "e2_minus_dp_mean": 0.9858523572654516,
+      "e2_minus_dp_std": 0.017745161876693467,
+      "e2_wins": 10,
+      "label": "R+Su",
+      "paired_bootstrap_95_ci": [
+        0.9735872896685895,
+        0.9948920229428907
+      ],
+      "ties": 0
+    }
+  },
+  "videos_ffprobed": 80
+}
