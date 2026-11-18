@@ -33,8 +33,10 @@ review GIFs and audit charts are derived from those same local recordings.
 The proxy results are not the paper's private Mug-on-Rack benchmark.
 
 The GIFs under `assets/rlbench/` are format conversions of locally recorded
-RLBench `PickUpCup` rollout videos from the paired v5 evaluation. They are
-included as reproducibility media; no RLBench source code is redistributed.
+RLBench `PickUpCup` expert and rollout videos. The expert GIFs are playback
+exports of the ten frozen training demonstrations; the rollout GIFs are from
+the paired v5 evaluation. They are included as reproducibility media; no
+RLBench source code is redistributed.
 
 ## ET-SEED
 

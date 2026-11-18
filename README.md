@@ -123,6 +123,44 @@ reported in millimetres and rotation as an SO(3) geodesic angle.
 The reported counts are native RLBench task outcomes. They are kept separate
 from expert-demo success and from the reconstructed SAPIEN environment.
 
+### All ten RLBench training demonstrations
+
+These are the ten complete expert trajectories used to build the frozen
+target-pose training set. The GIFs are low-quality 128x128 playback exports
+from the native RLBench expert execution; they are separate from the learned
+rollout examples below.
+
+[Open the RLBench expert contact sheet](assets/rlbench/expert_demos_low_quality_contact_sheet.png) ·
+[Open the expert trajectory audit](assets/rlbench/expert_demos_low_quality/audit.json) ·
+[Read the complete trajectory and training workflow](docs/rlbench_demonstration_workflow.md)
+
+| Expert demonstration 00 | Expert demonstration 01 |
+|---|---|
+| ![RLBench expert demonstration 00](assets/rlbench/expert_demos_low_quality/expert_demo_00_low_quality.gif) | ![RLBench expert demonstration 01](assets/rlbench/expert_demos_low_quality/expert_demo_01_low_quality.gif) |
+
+| Expert demonstration 02 | Expert demonstration 03 |
+|---|---|
+| ![RLBench expert demonstration 02](assets/rlbench/expert_demos_low_quality/expert_demo_02_low_quality.gif) | ![RLBench expert demonstration 03](assets/rlbench/expert_demos_low_quality/expert_demo_03_low_quality.gif) |
+
+| Expert demonstration 04 | Expert demonstration 05 |
+|---|---|
+| ![RLBench expert demonstration 04](assets/rlbench/expert_demos_low_quality/expert_demo_04_low_quality.gif) | ![RLBench expert demonstration 05](assets/rlbench/expert_demos_low_quality/expert_demo_05_low_quality.gif) |
+
+| Expert demonstration 06 | Expert demonstration 07 |
+|---|---|
+| ![RLBench expert demonstration 06](assets/rlbench/expert_demos_low_quality/expert_demo_06_low_quality.gif) | ![RLBench expert demonstration 07](assets/rlbench/expert_demos_low_quality/expert_demo_07_low_quality.gif) |
+
+| Expert demonstration 08 | Expert demonstration 09 |
+|---|---|
+| ![RLBench expert demonstration 08](assets/rlbench/expert_demos_low_quality/expert_demo_08_low_quality.gif) | ![RLBench expert demonstration 09](assets/rlbench/expert_demos_low_quality/expert_demo_09_low_quality.gif) |
+
+The current target-pose adapter retains the complete source trajectories but
+samples 20 pre-close frames per episode for training. It predicts a future
+Panda-tip target pose from each XYZRGB observation; it is not a full action
+sequence policy. The workflow document describes how to store complete
+trajectories and how to convert them into either this adapter's format or a
+true horizon-based trajectory dataset.
+
 ### Four RLBench rollout examples
 
 The four GIFs below are playable exports of saved RLBench rollout videos: two
