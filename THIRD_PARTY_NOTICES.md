@@ -26,9 +26,14 @@ redistributed here.
 - Copyright: 2023 PKU-EPIC
 
 `assets/riemann/official_web_teaser.gif` is copied from the official RiEMann
-repository under its MIT License. The remaining RiEMann figures are outputs of
-the local reproduction and reconstructed proxy simulation. The proxy results
+repository under its MIT License. The SAPIEN GIFs under
+`assets/riemann/sapien/` are format conversions of locally recorded expert
+demonstration videos from the reconstructed environment. The proxy results
 are not the paper's private Mug-on-Rack benchmark.
+
+The GIFs under `assets/rlbench/` are format conversions of locally recorded
+RLBench `PickUpCup` rollout videos from the paired v5 evaluation. They are
+included as reproducibility media; no RLBench source code is redistributed.
 
 ## ET-SEED
 
@@ -41,7 +46,7 @@ are not the paper's private Mug-on-Rack benchmark.
 `assets/isaac_lab/et_seed_paper_simulation_environment.png` is a downloaded
 copy of the teaser image published on the ET-SEED project page and is included
 only as a cited environment reference. Copyright and attribution remain with
-the ET-SEED authors. The SVG beside it is newly drawn for this repository.
+the ET-SEED authors.
 
 ## Scope Exclusion
 
