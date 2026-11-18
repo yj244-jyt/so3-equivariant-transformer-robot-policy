@@ -43,6 +43,48 @@ self-collected SAPIEN expert-demonstration environment.
 |---|---|
 | ![SAPIEN expert demonstration 00](assets/riemann/sapien/sapien_expert_demo_00.gif) | ![SAPIEN expert demonstration 01](assets/riemann/sapien/sapien_expert_demo_01.gif) |
 
+### Low-quality trajectory review of all training demonstrations
+
+The following ten GIFs are low-quality playback exports of every complete
+expert demonstration used by the latest SAPIEN training run (`demo_00`–
+`demo_09`). They are provided for trajectory inspection; they are not new
+simulator screenshots. The source run is
+`self_collected_mug_pick_place_v20_frozen_10_20261107`, with ten successful
+episodes and live SAPIEN actor-mesh observations.
+
+[Open the three-frame contact sheet](assets/riemann/sapien/expert_demos_low_quality_contact_sheet.png) ·
+[Open the trajectory audit chart](assets/riemann/sapien/expert_demos_low_quality_trajectory_diagnostics.png) ·
+[Open the machine-readable audit](assets/riemann/sapien/expert_demos_low_quality/audit.json)
+
+| Expert demonstration 00 | Expert demonstration 01 |
+|---|---|
+| ![Expert demonstration 00 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_00_low_quality.gif) | ![Expert demonstration 01 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_01_low_quality.gif) |
+
+| Expert demonstration 02 | Expert demonstration 03 |
+|---|---|
+| ![Expert demonstration 02 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_02_low_quality.gif) | ![Expert demonstration 03 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_03_low_quality.gif) |
+
+| Expert demonstration 04 | Expert demonstration 05 |
+|---|---|
+| ![Expert demonstration 04 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_04_low_quality.gif) | ![Expert demonstration 05 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_05_low_quality.gif) |
+
+| Expert demonstration 06 | Expert demonstration 07 |
+|---|---|
+| ![Expert demonstration 06 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_06_low_quality.gif) | ![Expert demonstration 07 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_07_low_quality.gif) |
+
+| Expert demonstration 08 | Expert demonstration 09 |
+|---|---|
+| ![Expert demonstration 08 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_08_low_quality.gif) | ![Expert demonstration 09 low-quality playback](assets/riemann/sapien/expert_demos_low_quality/expert_demo_09_low_quality.gif) |
+
+The trajectory record confirms a planning issue that is easy to miss at the
+original playback rate. Demonstrations 00, 01, 04, 05, and 08 spend about
+72–74 simulated seconds in the place stage and have a place path length
+3.7–4.4 times their net displacement, which indicates repeated reversals or
+replanning. Demonstration 08 also contains a single-frame 0.188 rad joint
+step and a 22.1 rad/s recorded joint-speed peak; demonstration 05 reaches
+12.7 rad/s. These are retained as recorded expert trajectories and should be
+replanned before being treated as clean supervision.
+
 ## 2. RLBench environment and final results
 
 ### Evaluation environment

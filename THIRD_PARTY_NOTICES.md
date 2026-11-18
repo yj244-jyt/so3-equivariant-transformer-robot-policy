@@ -28,8 +28,9 @@ redistributed here.
 `assets/riemann/official_web_teaser.gif` is copied from the official RiEMann
 repository under its MIT License. The SAPIEN GIFs under
 `assets/riemann/sapien/` are format conversions of locally recorded expert
-demonstration videos from the reconstructed environment. The proxy results
-are not the paper's private Mug-on-Rack benchmark.
+demonstration videos from the reconstructed environment. The low-quality
+review GIFs and audit charts are derived from those same local recordings.
+The proxy results are not the paper's private Mug-on-Rack benchmark.
 
 The GIFs under `assets/rlbench/` are format conversions of locally recorded
 RLBench `PickUpCup` rollout videos from the paired v5 evaluation. They are
