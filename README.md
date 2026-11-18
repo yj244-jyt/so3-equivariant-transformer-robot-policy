@@ -85,6 +85,43 @@ step and a 22.1 rad/s recorded joint-speed peak; demonstration 05 reaches
 12.7 rad/s. These are retained as recorded expert trajectories and should be
 replanned before being treated as clean supervision.
 
+### Why the current SAPIEN demonstrations use a narrow mug distribution
+
+The ten accepted SAPIEN episodes are a calibrated **T-condition collection**.
+The mug pose changes slightly with the scene seed, but scale, distractors, and
+the target rack remain fixed. The purpose was to first check observation/action
+alignment and obtain a stable expert target in the reconstructed environment.
+Changing only the robot path while keeping exactly the same observation would
+create ambiguous supervision for a deterministic policy: the policy would have
+no input telling it which equally valid path to choose. For a generalization
+dataset, the correct next step is to change the mug SE(3) pose deliberately,
+then geometry and distractors, capture a fresh live point cloud, and record the
+complete action sequence for every reset. Keep that collection separate from
+the calibrated T set.
+
+The editable collection template is
+[`examples/sapien_custom_demonstration.py`](examples/sapien_custom_demonstration.py).
+The complete adapter, planning, audit, and sequence-training workflow is in
+[`docs/sapien_custom_demonstration_workflow.md`](docs/sapien_custom_demonstration_workflow.md).
+It exposes mug position, roll/pitch/yaw, scale, distractor count, seed, and
+named approach/grasp/lift/transport/insert/retreat waypoints. Bind its small
+`SapienAdapter` interface to the local SAPIEN actor builder, camera renderer,
+and collision-aware planner, then run for example:
+
+```bash
+python examples/sapien_custom_demonstration.py --print-plan \
+  --mug-x 0.42 --mug-y -0.08 --mug-yaw-deg 15 --seed 12
+python examples/sapien_custom_demonstration.py \
+  --adapter my_sapien_adapter:create_adapter \
+  --mug-x 0.42 --mug-y -0.08 --mug-yaw-deg 15 --seed 12 \
+  --output runs/custom_sapien_demo_12
+```
+
+The adapter must return one live XYZ/RGB observation per control step. The
+template writes `scene_spec.json`, `trajectory.json`, compressed aligned
+`observations.npz`, hashes, and an optional playable `rollout.gif`; failed
+episodes should be retained and audited before training.
+
 ## 2. RLBench environment and final results
 
 ### Evaluation environment
