@@ -1,416 +1,117 @@
 # SO(3)-Equivariant Transformer for Robot Manipulation Policy
 
-An auditable experimental record of point-cloud equivariant Transformer policies
-for robot manipulation, covering strict reproduction, architectural ablations,
-out-of-distribution generalization, pose accuracy, equivariance, efficiency, and
-reconstructed simulation.
+这个仓库记录我们对点云机器人策略的可审计实验，以及下一阶段把几何等变 Transformer 接入 Isaac Lab 与 ET-SEED 的设计。页面分成两部分：第一部分是已经完成的 RiEMann / SAPIEN 线；第二部分是尚未宣称结果的 Isaac Lab × ET-SEED 计划。
 
-> **Repository scope.** This repository is a public experiment portfolio, not a
-> training-code release. All reported values come from completed experiments and
-> frozen artifacts. The figures are reused directly from the corresponding
-> simulation runs; no result figure was regenerated for this homepage. Checkpoints,
-> raw data, private run paths, and the `e2tsp-escnn` implementation are excluded.
+> **证据边界**：论文私有 Mug-on-Rack 仿真器没有公开。本文的 SAPIEN 结果是从零搭建的、与训练分布校准的重建环境；v27 使用了已经用于开发的 20 个 T 场景，属于开发对照，不能写成论文 T 接受率或 NI/NP/DO/ALL 泛化结论。M2isomorphicB0 的最新结果来自独立的 RLBench PickUpCup 诊断，不能和 SAPIEN 数字混合。
 
-## Research Experience
+## 第一部分：RiEMann 实验与 SAPIEN 环境
 
-- **EquiBot / SO(3)-equivariant encoder ablation.** Strictly reproduced EquiBot
-  and vanilla Diffusion Policy, then designed and trained E2-Linear-K8 by replacing
-  VN-PointNet with a 4-layer ESCNN SO(3) local-attention encoder while holding the
-  EquiBot canonicalization, vector diffusion head, training data, and budget fixed.
-  Completed 2,000 epochs / 120,000 optimizer steps, actor/EMA strict-load audits,
-  and 40 exactly scene-paired OOD rollouts. E2 preserved Original reward
-  (`0.987269` vs. DP `0.987363`) and increased mean reward across the three OOD
-  settings from `0.040051` to `0.925496`; the four-setting macro paired delta was
-  `+0.664060`, with a 95% bootstrap CI of `[+0.516306, +0.808862]`.
-- **RiEMann / SE(3)-equivariant policy reproduction and efficiency study.**
-  Completed 18 formal two-stage Phi/Manipulation training stages for B0, M1, and
-  M2 across three training seeds, audited 36 checkpoints, and ran 360 held-out pose
-  predictions, 486 equivariance cases, 3,600 CUDA-synchronized timing samples, and
-  900 paired SAPIEN proxy episodes. M2 reduced parameters by `98.24%` and achieved
-  `5.556x` model-only and `3.628x` end-to-end speedups, but its rotation error rose
-  to `60.346 deg`. M1 reached `67.0%` overall success on the reconstructed proxy
-  benchmark, `12.7 pp` above B0, identifying the type-1 / rotation branch as the
-  primary quality bottleneck in the lightweight design.
-- **WAM and real-robot roadmap (planned).** Plan to apply equivariant Transformers
-  to the emerging World-Action Model (WAM) paradigm, first testing the stability,
-  latency, and OOD generalization of interactions between geometric equivariant
-  representations and world/action tokens in simulation, then attempting
-  real-robot inference on i2RT. This is a research plan with no reported results;
-  it is kept separate from the two completed studies. See
-  [OpenWAM](https://openwam.stanford.edu/) for background.
+### 1. 从零搭建的 SAPIEN 场景
 
-## Project Overview
+我们没有把静态发布点云直接喂给策略，而是重新建立了可运行的 SAPIEN 2.2.2 场景：桌面、挂架、目标杯、干扰物、Franka Panda、相机和 PhysX 接触都在当前场景中创建。网络输入来自当前场景的多相机 CPU raycast，保存为 XYZRGB；策略的 φ/ψ 输入与场景、相机和控制器逐 episode 绑定。
 
-The two completed experiment tracks address complementary questions:
+环境搭建的关键点如下：
 
-| Track | Research question | Task and evidence | Current conclusion |
-|---|---|---|---|
-| EquiBot E2 | Can a fully equivariant system improve robustness to scale, rotation, and position shifts? | Object Covering; 40 DP episodes and 40 E2 episodes with 40/40 exact scene pairs | Strong OOD advantage in the seed-0 pilot; not yet a formal multi-seed result |
-| RiEMann B0/M1/M2 | Can geometric-kernel reuse reduce latency and memory while preserving quality? | 3 seeds; 360 pose predictions, 486 equivariance cases, 3,600 timing samples, and 900 proxy episodes | M2 is fastest and smallest but loses orientation quality; M1 has the highest proxy success rate |
-| WAM roadmap | Can equivariant geometric priors be integrated into joint world/action prediction? | Planned: simulation -> i2RT real robot | Not executed; no result is claimed |
+- **几何与坐标**：米制世界坐标，桌面和挂架使用连续三角网格与碰撞体；目标杯的 mug-specific `r1=0.16 m`、`r2=0.02 m` 沿用严格协议选择。
+- **观测**：每个抓取决策重新采集 live XYZRGB；原始协议输入为 8,192 点。目标位姿、标签和作者 anchor 不进入策略输入。
+- **动作链**：`φ(saliency center) → ROI → ψ(translation + type-1 orientation) → IMGS rotation → pre-grasp / close / lift / place`。抓取成功要求双指接触并在抬升窗口保持杯子高度；完整任务还要通过挂架放置谓词。
+- **可复现门禁**：冻结 scene manifest；B0、M2、M2wide 使用完全相同的抓取观测和控制器；检查 20 个独立场景规格、配对输入 hash、checkpoint hash、轨迹和失败阶段。
+- **软件栈**：Python 3.8.20、PyTorch 2.1.2+cu121、CUDA runtime 12.1、DGL 2.2.1、e3nn 0.5.1、ESCNN 1.0.11、torch-scatter 2.1.2、torch-cluster 1.6.3、SAPIEN 2.2.2、MPlib 0.1.1、Open3D 0.19.0。
+- **训练协议**：8 条训练 episode、seed 0、Adam `1e-4`、effective batch 4、每个模块 4,096 次更新，best checkpoint 只按训练误差选择；这是容量开发实验，不是独立测试集。
 
-The group actions form distinct levels: SO(3) describes rotation, SE(3) also
-includes translation, and SIM(3) additionally includes scale. This project studies
-how SO(3)-equivariant Transformer modules can be embedded in SE(3)/SIM(3) robot
-policies; it does not treat the three groups as the same experimental setting.
+![SAPIEN 五种条件的点云场景总览](assets/riemann/sapien/scene_conditions_overview.png)
 
-## 1. EquiBot: E2-Linear-K8
+T 场景的单条件视图和组合条件视图分别保存在 [scene_T_pointcloud.png](assets/riemann/sapien/scene_T_pointcloud.png) 与 [scene_ALL_pointcloud.png](assets/riemann/sapien/scene_ALL_pointcloud.png)。这些图展示的是输入几何与条件构造，不是作者未公开的原始仿真器截图。
 
-### 1.1 Simulation Tasks
+### 2. 模型结构、参数量与误差
 
-The following animations show actual rollouts from the frozen local EquiBot E0
-baseline: Cloth Folding, Object Covering, and Box Closing. Each GIF is a direct
-format conversion of the corresponding `Original / seed 0 / ckpt01999 / episode 00`
-evaluation video. The E2 training and strict paired comparison in this study use
-**Object Covering only**.
+所有模型都使用两阶段 φ/ψ 预测链。B0 是公开 RiEMann SE(3)-Transformer；M2 只在首层做相对边几何 lift，后续层使用等变线性 Q/K/V 与局部不变注意力；M2wide 只扩大 M2 的隐藏 fiber；M2isomorphicB0 与 M2wideisomorphicB0 把深度和最高 type 对齐到 B0，用于结构容量消融。
 
-| Cloth Folding (reward 1.000000) | Object Covering (reward 0.981746) | Box Closing (reward 0.999697) |
-|---|---|---|
-| ![EquiBot Cloth Folding rollout](assets/equibot/e0_fold_original_s0_ckpt01999_ep00.gif) | ![EquiBot Object Covering rollout](assets/equibot/e0_cover_original_s0_ckpt01999_ep00.gif) | ![EquiBot Box Closing rollout](assets/equibot/e0_close_original_s0_ckpt01999_ep00.gif) |
+| 模型 | φ/ψ 层数 | hidden multiplicity | 结构重点 | φ 参数 | ψ 参数 | 总参数 |
+|---|---:|---|---|---:|---:|---:|
+| B0 | 4 / 4 | 官方 fiber；φ degree 0–3，ψ1 degree 0–2，ψ2 degree 0–3 | 每层 SE(3) kernel attention | 296,460 | 439,880 | 736,340 |
+| M2 | 3 / 3 | `{0:4, 1:4, 2:2}` | 一次 geometry lift + 线性 Q/K/V + 局部不变注意力 | 4,316 | 8,639 | 12,955 |
+| M2wide | 3 / 3 | `{0:16, 1:16, 2:8}` | M2 的宽度容量消融，深度不变 | 28,466 | 56,963 | 85,429 |
+| M2isomorphicB0 | 4 / 4 | `{0:8, 1:8, 2:8, 3:8}` | M2 算子族对齐 B0 深度/type，并加同宽 output projection | 20,477 | 40,969 | 61,446 |
+| M2wideisomorphicB0 | 4 / 4 | `{0:16, 1:16, 2:16, 3:16}` | 同构配置的宽度版本 | 64,109 | 128,249 | 192,358 |
 
-The experiments use the public environments, data-generation process, and
-evaluation interfaces from [EquiBot](https://github.com/yjy0625/equibot). The
-cover dataset contains 50 demonstrations and 1,948 time steps. Each raw point
-cloud has 4,096 points, with 1,024 points sampled and shuffled during training.
-All comparisons use the same frozen data with `num_augment=0`.
+M2wide 在离线 n=8 place 链上把 M2 的 predicted-ROI ψ 误差从 `12.23 mm / 59.05°` 变为 `0.78 mm / 0.71°`，同时把 place φ 从 `43.23 mm` 变为 `0.51 mm`；这是一枚单 seed 容量信号，不能当作普遍优势。M2isomorphicB0 在 RLBench 的 validation 40 帧上仍有 `201.33 mm / 106.11°` 的 predicted-ROI 误差，M2wideisomorphicB0 为 `188.93 mm / 121.63°`。真实部署中最明显的误差放大来自 φ 定位误差进入 ROI 后再驱动 ψ，且 ψ 训练使用 GT ROI、部署使用预测 ROI。
 
-### 1.2 Architecture and Controlled Variables
+### 3. SAPIEN T 开发闭环结果
 
-E2 is an **encoder-only ablation** relative to the official EquiBot E0 model:
+v27 在同一 frozen manifest 上重新创建三套物理场景，共 20 个 T 场景。抓取率是模型控制的 primary result；完整率要求抓取、搬运和 learned place 全部通过。
 
-| Component | Official E0 | E2-Linear-K8 | Changed? |
-|---|---|---|---|
-| Point-cloud encoder | 4-layer VN-PointNet | 4-layer ESCNN SO(3) local-attention encoder | Yes |
-| Graph structure | kNN, K=8 | kNN, K=8 | No |
-| Equivariant Q/K/V | Internal VN structure | Linear Q/K/V | Primary variable |
-| Embedding irreps | VN vector features | `l=1:64`, `l=2:64` | Primary variable |
-| Q/K irreps | Not applicable | `l=1:32`, `l=2:32` | Primary variable |
-| Attention | Local kNN | 8 heads, within-irrep dot product + distance bias | Primary variable |
-| Policy canonicalization | SIM(3) center/scale | Same | No |
-| Diffusion head | Vector Conditional U-Net | Same | No |
-| Actor/EMA/checkpoint API | Official EquiBotAgent | Same, default strict load | No |
+| 模型 | 抓取 | 搬运末段保持持杯 | 实际 place 调用 | 完整 pick+place |
+|---|---:|---:|---:|---:|
+| B0 | 15/20 (75%) | 15/15 | 15 | **0/20 (0%)** |
+| M2 | 14/20 (70%) | 14/14 | 14 | **1/20 (5%)** |
+| M2wide | 15/20 (75%) | 15/15 | 15 | **5/20 (25%)** |
+| M2isomorphicB0 | 未在 v27 SAPIEN 线上执行 | — | — | **不报告** |
+| M2wideisomorphicB0 | 未在 v27 SAPIEN 线上执行 | — | — | **不报告** |
 
-E2 preserves the official `center / scale / so3 / inv` shape, dtype, and device
-contract. Neither training nor evaluation uses `strict=False`. E0 has
-`124,637,522` trainable parameters and E2 has `124,625,778`, a difference of only
-`-0.0094%`.
+主要失败类型是 `grasp_contact_failure`、`learned_preinsert:IK_failure`、`place_predicate_failure` 和 `policy_invalid`。`policy_invalid` 表示预测动作违反预先声明的工作空间或姿态合法性门禁，不应描述成物理抓取失败。M2wide 相对 M2 的完整率提升是 `4` 个配对场景获益、`0` 个回退，精确 McNemar `p=0.125`；单 seed、20 个已用于开发的场景不足以支持架构普遍优越性。
 
-The vanilla DP baseline is a system-level control. It uses a scalar
-PointNetEncoder and scalar Conditional U-Net without EquiBot's SIM(3) policy
-canonicalization. Therefore, **DP vs. E2 evaluates the complete equivariant
-system, but cannot attribute the gain to the encoder alone**.
+机器可读摘要在 [latest_sapien_v27_summary.json](results/riemann/latest_sapien_v27_summary.json)，协议 SHA-256 为 `1a272c396b13a59f9f5de13636fee09e4a180b6ac577a5db7057662267313f95`。
 
-### 1.3 Frozen Training Protocol
+### 4. 高清重渲染样例
 
-| Parameter | Vanilla DP | Official E0 | E2 |
-|---|---:|---:|---:|
-| Task / training seed | cover / 0 | cover / 0 | cover / 0 |
-| Epochs / optimizer steps | 2,000 / 120,000 | 2,000 / 120,000 | 2,000 / 120,000 |
-| Batch size / workers | 32 / 12 | 32 / 12 | 32 / 12 |
-| Learning rate / weight decay | `3e-5` / `1e-6` | Same | Same |
-| Point count / hidden dimension | 1,024 / 128 | Same | Same |
-| Encoder layers | 4 | 4 | 4 |
-| Observation / prediction / action horizon | 2 / 16 / 8 | Same | Same |
-| DDPM | 100 steps, epsilon prediction | Same | Same |
-| Inline evaluation / compile | Disabled / disabled | Same | Same |
+下面四张图由 v27 保存的真实 PhysX 关节/杯子轨迹重新渲染，分辨率为 1920×1400。它们是 measured-trajectory rerender，展示终态和失败阶段，不是原始传感器视频。
 
-All runs used an NVIDIA L20Z. Full 2,000-epoch training took `1:08:28` for DP,
-`9:03:35` for E0, and `39:26:01` for E2. E2 was `4.35x` slower than E0 and
-`34.56x` slower than DP, with peak memory of `19,151 MiB`. The cost comes mainly
-from irreps, basis expansion, and equivariant linear/attention operators, not from
-global point-cloud attention: E2 uses a K=8 local kNN graph.
-
-### 1.4 Strict Paired Evaluation
-
-Evaluation was frozen to cover / training seed 0 / `ckpt01999`, with 10 episodes
-for each of four setups:
-
-- Original: no override of the original position, scale, or rotation.
-- R+Su: z-axis rotation + `[1,2]` uniform scale.
-- R+Sn: z-axis rotation + `[1,2]` nonuniform scale, with maximum aspect ratio 1.33.
-- R+Sn+P: R+Sn + xy Gaussian position offset, with `rand_pos_scale=0.5`.
-
-Across the 40 paired DP/E2 episodes, the frozen artifacts matched exactly for
-initial state (40/40), randomization (40/40), and initial point cloud (40/40,
-element-wise). Training and inference seeds were both 0; environment seeds were
-0 through 9. The audit reloaded all 80 NPZ files and validated all 80 MP4 files
-with ffprobe. Paired bootstrap used seed `20261027` and 100,000 resamples.
-
-![DP versus E2 strict paired results](assets/equibot/dp_e2_strict_paired_reward_success.png)
-
-| Setup | DP reward mean +/- population std | DP success | E2 reward mean +/- population std | E2 success | E2-DP | Paired 95% CI |
-|---|---:|---:|---:|---:|---:|---:|
-| Original | 0.987363 +/- 0.007382 | 100% | 0.987269 +/- 0.007926 | 100% | -0.000094 | [-0.005829, +0.005487] |
-| R+Su | 0.007420 +/- 0.018566 | 0% | 0.993273 +/- 0.006477 | 100% | +0.985852 | [+0.973587, +0.994892] |
-| R+Sn | 0.099644 +/- 0.294074 | 10% | 0.986715 +/- 0.012242 | 100% | +0.887071 | [+0.687928, +0.991957] |
-| R+Sn+P | 0.013087 +/- 0.026285 | 0% | 0.796499 +/- 0.398265 | 80% | +0.783412 | [+0.492443, +0.986028] |
-| **Four-setup macro** | **0.276879** | - | **0.940939** | - | **+0.664060** | **[+0.516306, +0.808862]** |
-
-The equal-weight mean over the three OOD settings was `0.040051` for DP and
-`0.925496` for E2, an improvement of `+0.885445`. The Original-to-R+Sn+P gap
-decreased from `0.974276` for DP to `0.190770` for E2. The Original confidence
-interval crosses zero, so the sample shows no detectable in-distribution loss for
-E2; the paired deltas for all three OOD setups are positive.
-
-### 1.5 Failure Cases
-
-Under R+Sn+P, E2 failed at environment seeds 2 and 6 and succeeded at seed 9:
-
-| Seed 2: failure | Seed 6: failure | Seed 9: successful reference |
-|---|---|---|
-| ![](assets/equibot/e2_rsnp_seed2_failure.png) | ![](assets/equibot/e2_rsnp_seed6_failure.png) | ![](assets/equibot/e2_rsnp_seed9_success.png) |
-
-Seeds 2 and 6 had the largest position offsets in this E2 batch, with offset
-norms of `1.123765` and `1.349614`. The other eight scenes had offset norms no
-greater than `0.837757` and all succeeded. In the strict DP pairs, seeds 2 and 6
-also failed, while all other eight R+Sn+P scenes remained below the success
-threshold. The system difference therefore cannot be explained by mismatched
-scene difficulty.
-
-### 1.6 Supported and Unsupported Conclusions
-
-**Supported:** Within this seed-0, single-checkpoint pilot of 40 exactly paired
-scenes, the complete E2 equivariant system preserves Original performance and
-substantially improves reward under rotation, scale, and position OOD shifts.
-
-**Not supported:** This is not a formal study over three training seeds and the
-last five checkpoints. It also cannot isolate the contributions of the ESCNN
-encoder, SIM(3) canonicalization, and vector diffusion head. The E0/E2 encoder-only
-pilot used different environment reset order and is descriptive only. A valid next
-causal experiment should freeze the E2 encoder, data, canonicalization, action
-representation, and budget; change only the diffusion head; and explicitly record
-the vector-to-scalar adapter.
-
-## 2. RiEMann: B0 / M1 / M2
-
-### 2.1 Reproduction and Ablation Goal
-
-This study builds on the public [RiEMann](https://github.com/HeegerGao/RiEMann)
-implementation and examines the accuracy, equivariance, and efficiency trade-offs
-of SE(3)-equivariant policies. The shared prediction chain is: Phi saliency center
--> ROI 1 -> psi1 translation -> psi2 type-1 vectors -> ROI 2 pooling -> modified
-Gram-Schmidt rotation.
-
-![RiEMann official project teaser](assets/riemann/official_web_teaser.gif)
-
-> The image above reuses `web_teaser.gif` from RiEMann's official MIT-licensed
-> repository only to illustrate the original task format. Quantitative results in
-> this repository come from the local reproduction and reconstructed proxy benchmark.
-
-### 2.2 Models
-
-| Model | Backbone definition | Parameters | Reduction vs. B0 |
-|---|---|---:|---:|
-| B0 | Official RiEMann SE(3)-Transformer | 736,340 | 0% |
-| M1 | Per-layer relative-edge equivariant Transformer | 93,706 | 87.27% |
-| M2 | One relative-edge geometry lift, then equivariant linear Q/K/V + local invariant attention | 12,955 | 98.24% |
-
-M2 tests the computational hypothesis that expensive steerable edge kernels can
-be restricted to the first geometry-lifting step, while later layers reuse the
-lifted equivariant features. The results confirm lower latency and memory, but the
-type-1 / rotation branch does not retain B0's orientation quality.
-
-### 2.3 Frozen Training Protocol
-
-| Parameter | Setting |
+| 成功 1：M2wide scene 00 | 成功 2：M2wide scene 07 |
 |---|---|
-| Models / seeds | B0, M1, M2; training seeds 0, 1, 2 |
-| Two-stage training | Phi first, then Manipulation (`psi1/psi2`) for each seed |
-| Input points / batch | 2,500 / 1 |
-| Data split | Trajectory-level 8 train / 2 validation, preventing adjacent-frame leakage |
-| Phi | 200 epochs, Adam LR `1e-3` |
-| Manipulation | 500 epochs, Adam LR `5e-4` |
-| Scheduler | StepLR; Phi 40 epochs x 0.5, Mani 166 epochs x 0.5 |
-| Precision | FP32, no BF16/AMP |
-| Checkpoint | Per-model/per-seed best; Phi passes only to Mani with the same seed |
-| ROI | GT center for Mani train/validation; same-seed Phi predicted center for formal inference |
+| ![M2wide scene 00 success](assets/riemann/sapien/success_m2wide_scene00.png) | ![M2wide scene 07 success](assets/riemann/sapien/success_m2wide_scene07.png) |
 
-All 18 formal stages reached Phi epoch 199 or Mani epoch 499. Mean seconds per
-epoch across three seeds were: B0 Phi/Mani `92.817/49.076`, M1 `134.449/81.818`,
-and M2 `31.066/46.830`.
+| 失败 1：B0 scene 01，放置前 IK 失败 | 失败 2：M2 scene 02，抓取接触失败 |
+|---|---|
+| ![B0 scene 01 failure](assets/riemann/sapien/failure_b0_scene01.png) | ![M2 scene 02 failure](assets/riemann/sapien/failure_m2_scene02.png) |
 
-### 2.4 Offline Evaluation Protocol
+### 5. M2isomorphicB0：独立 RLBench 诊断线
 
-- **Pose accuracy:** two held-out trajectories per model/seed, 40 frames total;
-  the complete predicted Phi -> Psi chain, with no GT-center substitution.
-- **Equivariance:** global rotation, global translation, and point permutation on
-  18 inputs per model/seed, for 486 cases.
-- **Efficiency:** one L20Z, batch 1, 2,500 points; 10 warm-up iterations followed
-  by 200 CUDA-synchronized timing iterations; 1,800 model-only and 1,800
-  end-to-end measurements.
-- **Significance:** paired by seed and repeat; 600 pooled pairs and 10,000
-  bootstrap resamples.
-- **Statistical unit:** cross-model conclusions use the three independent training
-  seeds, not adjacent video frames as independent training replicates.
+为了回答“深度/type 对齐到 B0 后会怎样”，我们在 RLBench PickUpCup 上另建了 20 条配对评测：8 条训练回放、2 条验证回放、10 条新 episode。该线使用同一 live 三相机输入、同一 planner/controller 和原生 `Task.success()`，但它不是 SAPIEN Mug-on-Rack，也不是 NI/NP/DO/ALL 泛化结果。
 
-| Model | Translation error cm | Rotation error deg | Model-only p50 ms | End-to-end p50 ms | Peak memory MiB |
+| 模型 | 总参数 | 训练回放 | 验证回放 | 新 episode | 总成功 |
 |---|---:|---:|---:|---:|---:|
-| B0 | **0.7237** | **6.514** | 230.977 | 240.816 | 18,125.1 |
-| M1 | 0.7979 | 12.220 | 305.014 | 324.981 | 2,168.7 |
-| M2 | 1.5482 | 60.346 | **40.841** | **66.201** | **441.1** |
+| B0 | 736,340 | 5/8 | 0/2 | 3/10 | 8/20 (40%) |
+| M2 | 12,955 | 3/8 | 0/2 | 0/10 | 3/20 (15%) |
+| M2wide | 85,429 | 3/8 | 0/2 | 1/10 | 4/20 (20%) |
+| M2isomorphicB0 | 61,446 | 5/8 | 0/2 | 1/10 | **6/20 (30%)** |
+| M2wideisomorphicB0 | 192,358 | 5/8 | 0/2 | 0/10 | 5/20 (25%) |
 
-| Accuracy | Equivariance and efficiency |
-|---|---|
-| ![](assets/riemann/accuracy_translation.png) | ![](assets/riemann/accuracy_rotation.png) |
-| ![](assets/riemann/equivariance_rotation.png) | ![](assets/riemann/efficiency_latency.png) |
+初始 live 观测的完整动作误差（φ→predicted ROI→ψ）为：B0 `64.82 mm / 42.57°`、M2 `111.82 mm / 126.40°`、M2wide `75.49 mm / 83.60°`、M2isomorphicB0 `125.84 mm / 72.08°`、M2wideisomorphicB0 `84.56 mm / 72.79°`。窄/宽同构模型在 v4→v5 重复中 40 条结果有 39 条一致，唯一翻转来自相同规划回退路径下的 PhysX 接触重复性，不能解释成模型改进。
 
-Relative to B0, M2 achieved a `5.556x` model-only speedup with a 95% paired
-bootstrap CI of `[5.531x, 5.579x]`, and a `3.628x` end-to-end speedup with a CI
-of `[3.590x, 3.665x]`. M1 reached only `0.755x / 0.741x` of B0's model-only /
-end-to-end speed, showing that fewer parameters do not automatically yield faster
-equivariant execution.
+完整表格与误差分解见 [latest_isomorphic_rlbench_summary.json](results/riemann/latest_isomorphic_rlbench_summary.json)。
 
-For rotated inputs, B0/M1/M2 rotation residuals were
-`2.346 / 6.332 / 22.408 deg`. M2 instead had the lowest center residual
-(`4.467 mm`). The degradation is therefore concentrated in the orientation/type-1
-outputs and their composition, not simply in center localization.
+## 第二部分：Isaac Lab × ET-SEED 计划
 
-### 2.5 Reconstructed SAPIEN Proxy Benchmark
+### 1. 论文环境参考
 
-The paper's private scene, camera calibration, full mug place stage, and success
-criteria were not released. This evaluation is therefore strictly labeled a
-**reconstructed proxy benchmark**, not a reproduction of the paper's Mug-on-Rack
-success rate. Policy observations use RiEMann's official fused point clouds for
-T/NI/NP/DO/ALL plus deterministic target-only transforms. Predicted poses are
-executed through a shared SAPIEN 2.2.2 / MPlib 0.1.1 pipeline.
+ET-SEED 论文的 Figure 1 汇总了六类仿真任务：Open Bottle Cap、Open Door、Rotate Triangle、Calligraphy、Cloth Folding、Cloth Fling。下图直接引用 ET-SEED 项目页的 teaser，作为任务形态和 SE(3) 轨迹动作的参考；它不是本仓库已经完成的 Isaac Lab 结果。
 
-![RiEMann reconstructed conditions](assets/riemann/official_conditions.png)
+![ET-SEED paper simulation environments](assets/isaac_lab/et_seed_paper_simulation_environment.png)
 
-The benchmark contains 3 models x 3 training seeds x 5 conditions x 20 paired
-scene seeds = 900 episodes. Franka Panda executes pregrasp -> grasp -> close ->
-lift. After bilateral finger contact, the target must remain at `z >= 0.15 m` for
-120 consecutive physics steps to count as a success.
+来源：[ET-SEED project page](https://et-seed.github.io/)，[ICLR 2025 paper](https://proceedings.iclr.cc/paper_files/paper/2025/file/969a11f489c59c50c2cfe8c407c68a9b-Paper-Conference.pdf)。图中原始版权与署名归 ET-SEED 作者所有。
 
-![RiEMann proxy success by condition](assets/riemann/simulation_success_by_condition.png)
+### 2. 架构替换如何设计
 
-| Condition | B0 | M1 | M2 |
-|---|---:|---:|---:|
-| T | 60/60 (100.0%) | 59/60 (98.3%) | 56/60 (93.3%) |
-| NI | 60/60 (100.0%) | 60/60 (100.0%) | 60/60 (100.0%) |
-| NP | 11/60 (18.3%) | **34/60 (56.7%)** | 0/60 (0.0%) |
-| DO | 20/60 (33.3%) | **36/60 (60.0%)** | 4/60 (6.7%) |
-| ALL | 12/60 (20.0%) | 12/60 (20.0%) | 1/60 (1.7%) |
-| **Overall** | **163/300 (54.3%)** | **201/300 (67.0%)** | **121/300 (40.3%)** |
+第一版方案让 ET-SEED 保留轨迹级 SE(3) diffusion 的 action 表示、时间表、denoising loss、rollout 接口和任务 success predicate，只替换视觉条件网络：用 RiEMann 的 `φ → ROI → ψ` 产生对象几何 token，再通过一个明确记录的 adapter 对接 ET-SEED 的 trajectory denoiser。这样可以把“视觉几何编码器变化”和“扩散过程变化”分开归因。
 
-M1 exceeded B0 overall by `+12.7 pp` (paired exact McNemar `p=5.85e-6`), driven
-primarily by NP and DO. M2 was `-14.0 pp` below B0 (`p=1.31e-10`). None of the
-900 episodes had a runtime error.
+![Isaac Lab × ET-SEED architecture replacement](assets/isaac_lab/riemann_to_et_seed_isaaclab.svg)
 
-### 2.6 Interpretation Boundaries
+替换边界固定为：
 
-1. The proxy is not the paper's private Mug-on-Rack benchmark and does not include
-   the full place stage.
-2. Observations come from official static fused point clouds and deterministic
-   target transforms, not frame-by-frame closed-loop RGB-D.
-3. The mug uses proxy collision bodies and a rigid latch after bilateral contact.
-   This is valid for comparisons under the same protocol, but it is not a
-   substitute for high-fidelity contact simulation or a real robot.
-4. The 20 scene seeds per condition are derived from one official condition point
-   cloud, not 20 independent assets or camera domains.
-5. The 600 paired timing repeats measure stability on fixed hardware and input;
-   they are not 600 independent training experiments.
+1. Isaac Lab 负责并行场景、PhysX/RTX 传感器、相机标定、接触和 episode reset；每个 episode 保存 scene manifest、raw observation、policy input hash 与视频。
+2. RiEMann encoder 负责点云几何特征。首轮比较 `B0 → M2 → M2wide → M2isomorphicB0`，保持 demonstrations、action horizon、optimizer、seed 和 controller 一致。
+3. ET-SEED 负责轨迹级 SE(3) action diffusion。RiEMann 输出经过 `SE(3) condition adapter` 进入 denoising network；adapter 的参数量和是否训练必须单独列出。
+4. 评价先做 T 的 held-out replay 与 calibrated live-render；只有 T 通过后才扩展 NP（只改位姿）、NI（只改同类别实例）、DO（只加干扰物）和 ALL（组合三者）。
 
-The appropriate model therefore depends on the objective: B0 has the best offline
-pose accuracy, M1 has the highest reconstructed proxy success rate, and M2 has the
-fewest parameters and lowest memory and latency, but its current orientation quality
-does not support unconditional replacement of B0 or M1.
+首轮实验门禁是：T 的输入/action convention 与公开示范一致、φ ROI 不把目标系统性裁出、B0 与替换模型使用逐 episode 相同的原始观测、保存完整轨迹和视频，并同时报告 action geodesic error、pick success、full-task success、吞吐、显存和等变残差。当前 Isaac Lab 与 ET-SEED 线是 **planned**，尚无已完成的成功率。
 
-## 3. Strict Reproduction and Validation Workflow
+## 可审计结果与致谢
 
-Both experiment tracks use the same engineering principles:
+仓库中的 `results/riemann/` 保存摘要 CSV/JSON；完整 checkpoint、私有数据和绝对路径不随仓库发布。RiEMann 结果遵循 `/home/users/jinyitian/school/riemann_experiment/strict_mug_protocol.json` 的分线与 fail-closed 规则。
 
-1. **Freeze evidence sources:** record papers, official READMEs, source commits,
-   data, and protocol SHA-256 values.
-2. **Separate experiment paths:** label paper-specified settings, officially
-   executable configurations, and custom ablations; never mix them silently.
-3. **Run environment and GPU preflight:** freeze Python/PyTorch/CUDA/extension
-   versions and execute real forward/backward, finite loss/gradient, peak-memory,
-   and checkpoint round-trip tests.
-4. **Run a minimal smoke test:** validate launchers, logging, save/load/resume, and
-   evaluation interfaces before formal training. Stop at a failed gate rather than
-   bypassing it by changing the model or using `strict=False`.
-5. **Run formal training:** freeze seeds, data splits, training budgets, checkpoint
-   selection, and resource logs. Multi-GPU execution parallelizes independent runs
-   without changing the optimization semantics of an individual run.
-6. **Audit artifacts:** inspect exit codes, DONE markers, resolved configurations,
-   checkpoint strict loading, NaN/OOM status, logs, and manifests.
-7. **Pair evaluation scenes:** whenever possible, freeze initial state,
-   randomization, input point cloud, environment/inference seeds, and checkpoint
-   lineage across model comparisons.
-8. **Recompute independently:** derive mean/std/success/CI from episode- or
-   frame-level records and compare each value with the released summaries.
-9. **Retain negative results:** report speed-quality trade-offs, failure modes,
-   protocol gaps, and conclusions that the evidence cannot support.
+- RiEMann：<https://github.com/HeegerGao/RiEMann> · [paper](https://arxiv.org/abs/2403.19460)
+- ET-SEED：<https://github.com/yuechen0614/ET-SEED> · [project page](https://et-seed.github.io/)
+- Isaac Lab：<https://isaac-sim.github.io/IsaacLab/>
 
-## 4. Result Files
-
-The repository retains public aggregate results and per-scene paired deltas so
-that the README values can be independently checked:
-
-```text
-results/
-|-- equibot/
-|   |-- dp_e2_paired_deltas.csv
-|   `-- dp_e2_paired_summary.json
-`-- riemann/
-    |-- offline_summary.csv
-    |-- seed_summary.csv
-    |-- equivariance.csv
-    |-- efficiency.csv
-    |-- speed_significance.csv
-    |-- simulation_summary.csv
-    |-- simulation_seed_summary.csv
-    |-- simulation_paired_comparisons.csv
-    `-- simulation_failure_taxonomy.csv
-```
-
-`MANIFEST.sha256` freezes the README, result files, and media assets. The repository
-does not contain training data, checkpoints, episode videos/trajectories, absolute
-machine paths, or authentication material.
-
-The two frozen source reports used to assemble this page are:
-
-| Source report | SHA-256 |
-|---|---|
-| `E2_VS_BASELINE_PERFORMANCE_REPORT_ZH.md` | `080f0ffe6fdf418f99b9ae51cb572c6deaf0451f921e85d10eead8a6baa17ec1` |
-| `RIEMANN_FINAL_EVALUATION_SUMMARY_ZH.md` | `8daaa49250814e8b0afd19ca086939b00c10004bf457080969feecfe58f38bf3` |
-
-## 5. WAM -> i2RT Roadmap
-
-World-Action Models couple future world-state prediction with action generation.
-The planned work follows a simulation-first, real-robot-gated process:
-
-1. Select a public WAM backbone and freeze the non-equivariant baseline's data,
-   training budget, and inference interface.
-2. Introduce an SO(3)-equivariant Transformer into the action expert or 3D token
-   interaction, explicitly documenting the representation adapter so that multiple
-   changes are not conflated in one ablation.
-3. In simulation, gate on action success, future-state consistency,
-   rotation/translation equivariance residuals, compositional OOD conditions,
-   model-only/end-to-end latency, and memory.
-4. After the simulation gate passes, freeze observation/action conventions,
-   coordinate frames, control frequency, safety boundaries, and emergency-stop
-   behavior before a small real-robot inference study on i2RT.
-5. Label real-robot results separately. Do not substitute simulation success for
-   physical success or present planned work as a completed result.
-
-## 6. Hardware and Software
-
-| Experiment | GPU | Key software |
-|---|---|---|
-| EquiBot E2 | NVIDIA L20Z | Python 3.10.22, PyTorch 2.1.0+cu118, PyTorch3D 0.7.7, PyBullet 3.2.6, Diffusers 0.29.2, ESCNN 1.0.11 |
-| RiEMann B0/M1/M2 | 4 x NVIDIA L20Z | Python 3.8.20, PyTorch 2.1.2+cu121, ESCNN 1.0.11, torch-cluster 1.6.3, SAPIEN 2.2.2, MPlib 0.1.1 |
-
-## 7. References and Attribution
-
-- EquiBot: [paper](https://arxiv.org/abs/2407.01479),
-  [official repository](https://github.com/yjy0625/equibot).
-- RiEMann: [paper](https://arxiv.org/abs/2403.19460),
-  [official repository](https://github.com/HeegerGao/RiEMann),
-  [project page](https://riemann-web.github.io/).
-- WAM roadmap context: [OpenWAM](https://openwam.stanford.edu/).
-
-The experimental text, aggregate results, and locally generated figures in this
-repository are released under the [MIT License](LICENSE). Reused upstream assets
-and methods remain the property of their original authors; see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+本仓库的实验说明、汇总结果和新绘制的 SVG 设计图以 MIT License 发布；上游论文图片和方法保留原作者署名与许可。

@@ -30,6 +30,19 @@ repository under its MIT License. The remaining RiEMann figures are outputs of
 the local reproduction and reconstructed proxy simulation. The proxy results
 are not the paper's private Mug-on-Rack benchmark.
 
+## ET-SEED
+
+- Project: **ET-SEED: Efficient Trajectory-Level SE(3) Equivariant Diffusion
+  Policy**
+- Project page: <https://et-seed.github.io/>
+- Paper: <https://proceedings.iclr.cc/paper_files/paper/2025/file/969a11f489c59c50c2cfe8c407c68a9b-Paper-Conference.pdf>
+- Code: <https://github.com/yuechen0614/ET-SEED>
+
+`assets/isaac_lab/et_seed_paper_simulation_environment.png` is a downloaded
+copy of the teaser image published on the ET-SEED project page and is included
+only as a cited environment reference. Copyright and attribution remain with
+the ET-SEED authors. The SVG beside it is newly drawn for this repository.
+
 ## Scope Exclusion
 
 No implementation source, checkpoint, training data, or architecture asset was

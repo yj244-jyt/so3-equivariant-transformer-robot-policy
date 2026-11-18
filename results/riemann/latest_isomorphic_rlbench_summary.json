@@ -1,0 +1,40 @@
+{
+  "source_run": "runs/rlbench_isomorphic_paired_eval_20261115_v5",
+  "scope": "RLBench PickUpCup target-pose diagnostic; separate from SAPIEN Mug-on-Rack",
+  "models": {
+    "B0": {
+      "parameters_total": 736340,
+      "success": "8/20",
+      "action_position_mm": 64.82,
+      "action_rotation_deg": 42.57
+    },
+    "M2": {
+      "parameters_total": 12955,
+      "success": "3/20",
+      "action_position_mm": 111.82,
+      "action_rotation_deg": 126.4
+    },
+    "M2wide": {
+      "parameters_total": 85429,
+      "success": "4/20",
+      "action_position_mm": 75.49,
+      "action_rotation_deg": 83.6
+    },
+    "M2isomorphicB0": {
+      "parameters_phi": 20477,
+      "parameters_psi": 40969,
+      "parameters_total": 61446,
+      "success": "6/20",
+      "action_position_mm": 125.84,
+      "action_rotation_deg": 72.08
+    },
+    "M2wideisomorphicB0": {
+      "parameters_phi": 64109,
+      "parameters_psi": 128249,
+      "parameters_total": 192358,
+      "success": "5/20",
+      "action_position_mm": 84.56,
+      "action_rotation_deg": 72.79
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "source_run": "runs/v27_capacity_paired_T_20261112/evaluation",
+  "protocol_sha256": "1a272c396b13a59f9f5de13636fee09e4a180b6ac577a5db7057662267313f95",
+  "scope": "self-collected T development, not paper T acceptance or NI/NP/DO/ALL",
+  "scene_count": 20,
+  "paired_initial_input_identity": true,
+  "models": {
+    "B0": {
+      "parameters_phi": 296460,
+      "parameters_psi": 439880,
+      "pick_success": "15/20",
+      "full_success": "0/20"
+    },
+    "M2": {
+      "parameters_phi": 4316,
+      "parameters_psi": 8639,
+      "pick_success": "14/20",
+      "full_success": "1/20"
+    },
+    "M2wide": {
+      "parameters_phi": 28466,
+      "parameters_psi": 56963,
+      "pick_success": "15/20",
+      "full_success": "5/20"
+    }
+  },
+  "failure_taxonomy": {
+    "B0_n8_hard": {
+      "episodes": 20,
+      "pick": 15,
+      "transfer_waypoint_complete": 15,
+      "transfer_observed_retained_grip": 15,
+      "place_calls": 15,
+      "full": 0,
+      "full_given_pick": 0.0,
+      "pick_wilson95": [
+        0.531299122381256,
+        0.8881382985923343
+      ],
+      "full_wilson95": [
+        0.0,
+        0.16112515805281938
+      ],
+      "failures": {
+        "place:policy_invalid": 2,
+        "learned_place_orient:IK_failure": 1,
+        "learned_preinsert:IK_failure": 9,
+        "place:place_predicate_failure": 3,
+        "pick:grasp_contact_failure": 5
+      },
+      "full_success_scenes": []
+    },
+    "M2_n8_hard": {
+      "episodes": 20,
+      "pick": 14,
+      "transfer_waypoint_complete": 14,
+      "transfer_observed_retained_grip": 14,
+      "place_calls": 14,
+      "full": 1,
+      "full_given_pick": 0.07142857142857142,
+      "pick_wilson95": [
+        0.4810271816464765,
+        0.8545227551323956
+      ],
+      "full_wilson95": [
+        0.008881448800795402,
+        0.23613119344674205
+      ],
+      "failures": {
+        "place:place_predicate_failure": 7,
+        "learned_preinsert:IK_failure": 3,
+        "pick:grasp_contact_failure": 4,
+        "learned_place_orient:IK_failure": 2,
+        "pick:policy_invalid": 1,
+        "retreat:IK_failure": 1,
+        "pick:lift_failure": 1,
+        "place:success": 1
+      },
+      "full_success_scenes": [
+        19
+      ]
+    },
+    "M2wide_n8_hard": {
+      "episodes": 20,
+      "pick": 15,
+      "transfer_waypoint_complete": 15,
+      "transfer_observed_retained_grip": 15,
+      "place_calls": 15,
+      "full": 5,
+      "full_given_pick": 0.3333333333333333,
+      "pick_wilson95": [
+        0.531299122381256,
+        0.8881382985923343
+      ],
+      "full_wilson95": [
+        0.11186170140766569,
+        0.468700877618744
+      ],
+      "failures": {
+        "place:success": 5,
+        "place:place_predicate_failure": 4,
+        "learned_preinsert:IK_failure": 4,
+        "pick:grasp_contact_failure": 5,
+        "retreat:IK_failure": 1,
+        "place:policy_invalid": 1
+      },
+      "full_success_scenes": [
+        0,
+        7,
+        12,
+        14,
+        19
+      ]
+    }
+  }
+}
